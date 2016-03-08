@@ -1,0 +1,8 @@
+<MailClient>
+ <Contacts/>
+ <Settings>
+  <Imap login="" host="" timeout="0" password="" port="0"/>
+  <Smtp tls="0" login="" host="" password="" port="0"/>
+ </Settings>
+ <Directories/>
+</MailClient>
