@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>src/AddressBookWindow.h</itemPath>
+      <itemPath>src/Base64.h</itemPath>
+      <itemPath>src/Contact.h</itemPath>
+      <itemPath>src/ContactDialog.h</itemPath>
+      <itemPath>src/ContactPicker.h</itemPath>
+      <itemPath>src/ContactTableModel.h</itemPath>
+      <itemPath>src/DataRepository.h</itemPath>
+      <itemPath>src/Directory.h</itemPath>
+      <itemPath>src/DirectoryTreeItem.h</itemPath>
+      <itemPath>src/DirectoryTreeModel.h</itemPath>
+      <itemPath>src/DirectoryTreeView.h</itemPath>
+      <itemPath>src/Fibonacci.h</itemPath>
+      <itemPath>src/Imap.h</itemPath>
+      <itemPath>src/Interface.h</itemPath>
+      <itemPath>src/Logger.h</itemPath>
+      <itemPath>src/Mail.h</itemPath>
+      <itemPath>src/MailBox.h</itemPath>
+      <itemPath>src/MailTableModel.h</itemPath>
+      <itemPath>src/MailView.h</itemPath>
+      <itemPath>src/MainWindow.h</itemPath>
+      <itemPath>src/Queue.h</itemPath>
+      <itemPath>src/Settings.h</itemPath>
+      <itemPath>src/SettingsDialog.h</itemPath>
+      <itemPath>src/SettingsStore.h</itemPath>
+      <itemPath>src/Smtp.h</itemPath>
+      <itemPath>src/Timer.h</itemPath>
+      <itemPath>src/XmlReader.h</itemPath>
+      <itemPath>src/XmlWriter.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>src/AddressBookWindow.cpp</itemPath>
+      <itemPath>src/Base64.cpp</itemPath>
+      <itemPath>src/Contact.cpp</itemPath>
+      <itemPath>src/ContactDialog.cpp</itemPath>
+      <itemPath>src/ContactPicker.cpp</itemPath>
+      <itemPath>src/ContactTableModel.cpp</itemPath>
+      <itemPath>src/DataRepository.cpp</itemPath>
+      <itemPath>src/Directory.cpp</itemPath>
+      <itemPath>src/DirectoryTreeItem.cpp</itemPath>
+      <itemPath>src/DirectoryTreeModel.cpp</itemPath>
+      <itemPath>src/DirectoryTreeView.cpp</itemPath>
+      <itemPath>src/Fibonacci.cpp</itemPath>
+      <itemPath>src/Imap.cpp</itemPath>
+      <itemPath>src/Interface.cpp</itemPath>
+      <itemPath>src/Logger.cpp</itemPath>
+      <itemPath>src/Mail.cpp</itemPath>
+      <itemPath>src/MailBox.cpp</itemPath>
+      <itemPath>src/MailTableModel.cpp</itemPath>
+      <itemPath>src/MailView.cpp</itemPath>
+      <itemPath>src/MainWindow.cpp</itemPath>
+      <itemPath>src/Queue.cpp</itemPath>
+      <itemPath>src/Settings.cpp</itemPath>
+      <itemPath>src/SettingsDialog.cpp</itemPath>
+      <itemPath>src/SettingsStore.cpp</itemPath>
+      <itemPath>src/Smtp.cpp</itemPath>
+      <itemPath>src/Timer.cpp</itemPath>
+      <itemPath>src/XmlReader.cpp</itemPath>
+      <itemPath>src/XmlWriter.cpp</itemPath>
+      <itemPath>src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="4">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <qt>
+        <modules>core gui widgets network xml</modules>
+      </qt>
+      <compileType>
+        <ccTool>
+          <standard>8</standard>
+        </ccTool>
+      </compileType>
+      <item path="src/AddressBookWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AddressBookWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Base64.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Base64.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Contact.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Contact.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactPicker.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactPicker.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactTableModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactTableModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DataRepository.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DataRepository.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Directory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Directory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeItem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeItem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeView.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeView.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Fibonacci.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Fibonacci.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Imap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Imap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Interface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Interface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Mail.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Mail.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailBox.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailBox.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailTableModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailTableModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailView.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailView.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MainWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MainWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Queue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Queue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SettingsStore.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SettingsStore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Smtp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Smtp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/XmlReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/XmlReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/XmlWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/XmlWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="4">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <qt>
+        <buildMode>1</buildMode>
+        <modules>core gui widgets</modules>
+      </qt>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="src/AddressBookWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AddressBookWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Base64.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Base64.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Contact.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Contact.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactPicker.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactPicker.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ContactTableModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactTableModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DataRepository.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DataRepository.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Directory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Directory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeItem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeItem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeView.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DirectoryTreeView.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Fibonacci.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Fibonacci.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Imap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Imap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Interface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Interface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Mail.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Mail.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailBox.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailBox.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailTableModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailTableModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailView.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailView.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MainWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MainWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Queue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Queue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SettingsStore.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SettingsStore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Smtp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Smtp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/XmlReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/XmlReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/XmlWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/XmlWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
