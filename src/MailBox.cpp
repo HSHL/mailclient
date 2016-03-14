@@ -12,28 +12,28 @@
 #include <QList>
 #include <QDateTime>
 #include "MailView.h"
-#include "AddressBookWindow.h"
+#include "ContactsDialog.h"
 #include <QHeaderView>
 #include <QString>
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QFont>
 #include <QMessageBox>
+#include "Logger.h"
 
-MailBox::MailBox(DataRepository* repository, Imap *imap, QWidget* parent) : QWidget(parent) {
-    this->repository = repository;
+MailBox::MailBox(MailCache* mailCache, ContactRepository *contactRepo, Imap *imap, QWidget* parent) : QWidget(parent) {
+    Logger::debug("MailBox.constructor");
+    
+    this->mailCache = mailCache;
+    this->contactRepo = contactRepo;
     this->imap = imap;
     
     QHBoxLayout *hBox = new QHBoxLayout(this);
     QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     
-    directoryTree = new QTreeView(this);
+    directoryTree = new QTreeWidget(this);
+    directoryTree->header()->close();
     hBox->addWidget(directoryTree);    
-    
-    dirModel = new DirectoryTreeModel(this->repository->getDirectoriesHierarchically());
-    directoryTree->setModel(dirModel);
-    directoryTree->expandAll();
-    
     QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
     spLeft.setHorizontalStretch(0.5);
     directoryTree->setSizePolicy(spLeft);
@@ -47,7 +47,6 @@ MailBox::MailBox(DataRepository* repository, Imap *imap, QWidget* parent) : QWid
     smallHBox->addWidget(tblMailView);
     
     QList<Mail*> list;
-
     mailModel = new MailTableModel(list, this);
     tblMailView->setModel(mailModel);
     
@@ -60,7 +59,7 @@ MailBox::MailBox(DataRepository* repository, Imap *imap, QWidget* parent) : QWid
     tblMailView->setSelectionMode(QAbstractItemView::SingleSelection);
         
     mailView = new MailView();
-    contactPicker = new ContactPicker(repository, mailView);
+    contactPicker = new ContactPicker(contactRepo, mailView);
     mailView->setContactPicker(contactPicker);    
     
     smallHBox->addWidget(mailView);
@@ -101,8 +100,8 @@ MailBox::MailBox(DataRepository* repository, Imap *imap, QWidget* parent) : QWid
     mailMenu->addAction(markAsUnseen);
     mailMenu->addAction(deleteMail);
     
-    connect(directoryTree->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(currentDirectoryChanged(QModelIndex, QModelIndex)));
-    connect(imap, SIGNAL(fetchCompleted()), this, SLOT(reloadMails()));
+    connect(mailCache, SIGNAL(directoriesChanged()), this, SLOT(buildDirectoryTree()));
+    connect(mailCache, SIGNAL(directoryAdded(Directory*)), this, SLOT(directoryAdded(Directory*)));
     connect(tblMailView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(showMail()));
     connect(tblMailView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mailContextMenu(QPoint)));
     connect(reply, SIGNAL(triggered()), this, SLOT(replyTriggered()));
@@ -111,43 +110,30 @@ MailBox::MailBox(DataRepository* repository, Imap *imap, QWidget* parent) : QWid
     connect(markAsUnseen, SIGNAL(triggered()), this, SLOT(markAsUnseenTriggered()));
 }
 
-void MailBox::currentDirectoryChanged(const QModelIndex& current, const QModelIndex& previous) {
-    if (directoryTree->currentIndex().isValid()) {
-        if (mailView->isVisible())
-            emit showClose(false);
-        
-        mailView->close();
-        
-        if (imap->isConnected()) {            
-            imap->selectDirectory(dirModel->getData(current));
-        }
-        
-        reloadMails();        
-    }
-}
-
 void MailBox::reloadMails() {
-    if (directoryTree->currentIndex().isValid()) {
-        mailModel->setData(dirModel->getData(directoryTree->currentIndex())->getMailList());
-        tblMailView->resizeColumnToContents(0);
-        tblMailView->resizeColumnToContents(1);
-        tblMailView->resizeColumnToContents(3);
-        tblMailView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-        tblMailView->reset();
-    }
+    Logger::debug("MailBox.reloadMails");
+//    if (directoryTree->currentIndex().isValid()) {
+//        mailModel->setData(dirModel->getData(directoryTree->currentIndex())->getMailList());
+//        tblMailView->resizeColumnToContents(0);
+//        tblMailView->resizeColumnToContents(1);
+//        tblMailView->resizeColumnToContents(3);
+//        tblMailView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+//        tblMailView->reset();
+//    }
 }
 
 void MailBox::showMail() {
-    mailView->setMail(selected());
-    mailView->show();
-    emit showClose();
-    
-    if (!selected()->isRead()) {
-        selected()->readMail();
-        if (imap->isConnected()) {
-            imap->readMail(selected(), dirModel->getData(directoryTree->currentIndex()));
-        }
-    }
+    Logger::debug("MailBox.showMail");
+//    mailView->setMail(selected());
+//    mailView->show();
+//    emit showClose();
+//    
+//    if (!selected()->isRead()) {
+//        selected()->readMail();
+//        if (imap->isConnected()) {
+//            imap->readMail(selected(), dirModel->getData(directoryTree->currentIndex()));
+//        }
+//    }
 }
 
 Mail* MailBox::selected() const {
@@ -188,39 +174,46 @@ void MailBox::forwardTriggered() {
 }
 
 void MailBox::deleteMailTriggered() {
-    if (imap->isConnected()) {
-        imap->deleteMail(selected(), dirModel->getData(directoryTree->currentIndex()));
-        mailModel->removeRows(tblMailView->currentIndex().row(), 1);
-    }
+//    if (imap->isConnected()) {
+//        imap->deleteMail(selected(), dirModel->getData(directoryTree->currentIndex()));
+//        mailModel->removeRows(tblMailView->currentIndex().row(), 1);
+//    }
 }
 
 void MailBox::markAsUnseenTriggered() {
-    if (imap->isConnected()) {
-        imap->unreadMail(selected(), dirModel->getData(directoryTree->currentIndex()));
-        selected()->unreadMail();
-    }
-}
-
-MailView* MailBox::getMailView() {
-    return this->mailView;
+//    if (imap->isConnected()) {
+//        imap->unreadMail(selected(), dirModel->getData(directoryTree->currentIndex()));
+//        selected()->unreadMail();
+//    }
 }
 
 void MailBox::refreshMailsTriggered() {
     if (!imap->isConnected())
         imap->connect();
     
-    if (imap->isConnected())
-        imap->selectDirectory(dirModel->getData(directoryTree->currentIndex()));
+//    if (imap->isConnected())
+//        imap->selectDirectory(dirModel->getData(directoryTree->currentIndex()));
 }
 
 void MailBox::reloadDirectoryTree() {
-    mailModel->clear();
-    dirModel->changeData(this->repository->getDirectoriesHierarchically());
-    directoryTree->reset();
-    directoryTree->expandAll();
-    
-    QModelIndex first = dirModel->index(0, 0, QModelIndex());
-    directoryTree->setCurrentIndex(first);
-    
-    emit directoriesReady();
+//    mailModel->clear();
+//    dirModel->changeData(this->mailCache->getDirectoriesHierarchically());
+//    directoryTree->reset();
+//    directoryTree->expandAll();
+//    
+//    QModelIndex first = dirModel->index(0, 0, QModelIndex());
+//    directoryTree->setCurrentIndex(first);
+//    
+//    emit directoriesReady();
+}
+
+void MailBox::buildDiretoryTree() {
+
+}
+
+void MailBox::directoryAdded(Directory* dir) {
+    if (dir->getParentDirectory() == NULL) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(directoryTree);
+        item->setText(0, dir->getName());
+    }
 }

@@ -5,25 +5,25 @@
  * Created on October 15, 2015, 12:51 PM
  */
 
-#ifndef ADDRESSBOOK_H
-#define	ADDRESSBOOK_H
+#ifndef CONTACTSDIALOG_H
+#define	CONTACTSDIALOG_H
 
 #include <QDialog>
 #include "ContactTableModel.h"
 #include "Contact.h"
 #include <QList>
 #include <QTableView>
-#include "DataRepository.h"
+#include "ContactRepository.h"
 #include <QPushButton>
 
-class AddressBookWindow : public QDialog {
+class ContactsDialog : public QDialog {
     Q_OBJECT
 
 public:
-    AddressBookWindow(DataRepository* repository, QWidget* parent = 0);
+    ContactsDialog(ContactRepository* repository, QWidget* parent = 0);
 
 private:
-    DataRepository* repository;
+    ContactRepository* repository;
     ContactTableModel* model;
     QTableView* tblContacts;
     Contact* selected();

@@ -21,13 +21,13 @@
 #include "Queue.h"
 #include "Directory.h"
 
-class DataRepository;
+class MailCache;
 
 class Imap : public QObject {
     Q_OBJECT
     
 public:
-    Imap(DataRepository *repository, QSettings *settings);
+    Imap(MailCache *mailCache, QSettings *settings);
     ~Imap();
     QList<Directory*> getDirectories();
     void selectDirectory(Directory *dir);
@@ -48,7 +48,7 @@ private:
     enum Result { OK, NO, BAD, BLANK };
     enum Command { LOGIN, LIST, SELECT, FETCH, STORE, EXPUNGE, DEFAULT, NOOP, LOGOUT };
     
-    DataRepository *repository;
+    MailCache *mailCache;
     QSettings *settings;
     Command currentCommand;
     Directory* currentDir;
@@ -61,9 +61,6 @@ private:
     void setCurrentCommand(QString cmd);
     Mail* mailDummy;
     Queue queue;
-    QString host;
-    unsigned short int port;
-    QList<Directory*> directoryList;
     QSslSocket* socket;
     QTextStream* stream;
     QString nextTag();
@@ -71,18 +68,9 @@ private:
     QString stringFromImap(QString input);
     QString stringToImap(QString input);
     Result parseResponseCode(QString response);
-    QString buildPath(Directory* dir);
-    Directory* getDirectoryByPath(QString path, QList<Directory*> list);
     void fetchDirectories(QString root = "");
     void parseDirectory(QString response);
-    void addToHierarchy(QString path, Directory* parent = 0);
     void parseFetchResponse(QString response);
-    void listDirectories();
-    QList<Directory*> flatDirectoryList;
-    int directoryId;
-    int nextDirectoryId();
-    bool idExists(int id);
-    bool directoryListReady;
     
 private slots:
     void connectionReady();
@@ -95,7 +83,6 @@ signals:
     void pipeReady();
     void fetchCompleted();
     void connectedChanged();
-    void printLine(QString s);
 };
 
 #endif /* IMAP_H */

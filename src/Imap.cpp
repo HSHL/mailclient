@@ -21,8 +21,16 @@
 #include "Mail.h"
 #include <QLocale>
 #include "Base64.h"
-#include "DataRepository.h"
+#include "MailCache.h"
+#include "Logger.h"
 
+Imap::Imap(MailCache *mailCache, QSettings *settings) {
+    Logger::debug("Imap.constructor");
+    
+    this->mailCache = mailCache;
+    this->settings = settings;
+    initialize();
+}
 
 QString Imap::stringFromImap(QString input) {
     return input.replace("&AOQ-", "ä")
@@ -44,7 +52,6 @@ QString Imap::stringToImap(QString input) {
             .replace("ß", "&AN8-");
 }
 
-
 unsigned short int Imap::tagPrefix = 65;
 unsigned short int Imap::tagNumber = 0;
 
@@ -64,49 +71,9 @@ QString Imap::nextTag() {
     return tmpTag;
 }
 
-
-QString Imap::buildPath(Directory* dir) {
-    if (dir->getParentDirectory() == 0) {
-        return dir->getName();
-    }
-    else {
-        return buildPath(dir->getParentDirectory()) + "/" + dir->getName();
-    }
-}
-
-
-Directory* Imap::getDirectoryByPath(QString path, QList<Directory*> list) {
-    QString tldDir = path;
-    QString newPath = "";
-    
-    if (tldDir.contains("/")) {
-        tldDir.truncate(tldDir.indexOf("/"));
-        newPath = path.mid(path.indexOf("/") + 1);
-    }
-    
-    foreach (Directory* dir, list) {
-        if (dir->getName() == tldDir) {
-            if (newPath == "") {
-                return dir;
-            }
-            else {
-                return getDirectoryByPath(newPath, dir->getSubDirectories());
-            }
-        }
-    }
-    
-    return 0;
-}
-
-Imap::Imap(DataRepository *repository, QSettings *settings) {    
-    this->repository = repository;
-    this->settings = settings;
-    
-    initialize();
-}
-
 void Imap::initialize() {
-    directoryId = 0;
+    Logger::debug("Imap.initialize");
+
     indicator = 0;
     currentDir = 0;
     currentCommand = DEFAULT;
@@ -129,7 +96,6 @@ Imap::~Imap() {
         logout();
     }
 }
-
 
 void Imap::setCurrentCommand(QString cmd) {
     if (cmd.startsWith("LOGIN ")) {
@@ -158,33 +124,31 @@ void Imap::setCurrentCommand(QString cmd) {
     }
 }
 
-
 void Imap::sendCommand(QString cmd, Directory* dir) {
+    Logger::debug("Imap.sendCommand: " + cmd);
+    
     setCurrentCommand(cmd);
     currentDir = dir;
     QString command = nextTag() + cmd + "\r\n";
     qDebug() << "> " << command;
     
     if (currentCommand == FETCH) {
-        dir->clearMail();
+        mailCache->removeMailsInDirectory(dir);
     }
     
     *stream << command;
     stream->flush();
-    
-    printLine("> " + command);
 }
 
-
 void Imap::readyRead() {
+    Logger::debug("Imap.readyRead");
+    
     Result result = BLANK;
     QString response;
     
     while (socket->canReadLine()) {
-        response = socket->readLine();
-        qDebug() << "< " << response;
-        
-        printLine("< " + response);
+        response = socket->readLine().simplified();
+        Logger::debug("Imap.readyRead: " + response);
         
         if (response.startsWith("* BYE")) {
             disconnected();            
@@ -243,7 +207,7 @@ void Imap::readyRead() {
                 
                 if (response.startsWith("* ")) {
                     mailDummy = new Mail();
-                    currentDir->addMail(mailDummy);
+                    mailDummy->setDirectory(currentDir);
 
                     QRegularExpression regEx("\\(UID [0-9]{1,} FLAGS \\(.*\\) ", QRegularExpression::CaseInsensitiveOption);
                     QRegularExpressionMatch match = regEx.match(response);
@@ -263,6 +227,7 @@ void Imap::readyRead() {
                         }
                     }
                     
+                    mailCache->addMail(mailDummy);
                     break;
                 }
                 else {
@@ -311,7 +276,6 @@ void Imap::readyRead() {
                 if (indicator == 0) {
                     emit directoriesFetched();
                     connected = true;
-                    directoryListReady = true;
                 }
             }
             
@@ -329,7 +293,6 @@ void Imap::readyRead() {
         {
             if (result == OK) {
                 textIncoming = false;
-                
                 emit fetchCompleted();
             }
             
@@ -347,7 +310,6 @@ void Imap::readyRead() {
         emit pipeReady();
     }
 }
-
 
 Imap::Result Imap::parseResponseCode(QString response) {
     QRegularExpression regEx;
@@ -367,7 +329,6 @@ Imap::Result Imap::parseResponseCode(QString response) {
     
     return BLANK;
 }
-
 
 void Imap::parseFetchResponse(QString response) {
     if (response.startsWith("Date: ")) {
@@ -407,36 +368,34 @@ void Imap::parseFetchResponse(QString response) {
     }
 }
 
-
 bool Imap::isConnected() {
     return this->connected;
 }
 
 void Imap::connect() {
+    Logger::debug("Imap.connect");
+    
     socket = new QSslSocket(this);
     QObject::connect(socket, SIGNAL(connected()), this, SLOT(connectionReady()));
     QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    socket->connectToHostEncrypted(host, port);
+    socket->connectToHostEncrypted(settings->value("IMAP/host").toString(), settings->value("IMAP/port").toInt());
 }
 
 void Imap::connectionReady() {
+    Logger::debug("Imap.connectionReady");
+    
     stream = new QTextStream(socket);
     stream->setCodec("UTF-8");
-    qDebug() << "Connected.";
-    
     connected = true;
-    
     emit connectedChanged();
-    
     queue.connected();
-    
     login();
 }
 
 void Imap::disconnected() {
-    qDebug() << "Disconnected.";
+    Logger::debug("Imap.disconnected");
+    
     connected = false;
-    directoryListReady = false;
     queue.disconnected();
     queue.clear();
     emit connectedChanged();
@@ -451,11 +410,15 @@ void Imap::logout() {
 }
 
 void Imap::fetchDirectories(QString root) {
+    Logger::debug("Imap.fetchDirectories");
+    
     indicator++;
     queue.push("LIST \"\" " + ((root == "")?("%"):(root + "/%")));
 }
 
 void Imap::parseDirectory(QString response) {
+    Logger::debug("Imap.parseDirectory");
+    
     QRegularExpression regEx("\"[^/ ]((.*)+)\"", QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch match = regEx.match(response);              
                 
@@ -466,64 +429,13 @@ void Imap::parseDirectory(QString response) {
             fetchDirectories(dirName);
         }
             
-        addToHierarchy(dirName);
+        mailCache->addDirectory(dirName);
     }
 }
-
-void Imap::addToHierarchy(QString path, Directory* parent) {
-    if (path.contains("/")) {
-        QString parentDirectory = path.mid(0, path.indexOf("/"));
-        foreach(Directory* dir, directoryList) {
-            if (dir->getName() == parentDirectory) {
-                addToHierarchy(path.mid(path.indexOf("/") + 1), dir);               
-                
-                break;
-            }
-        }
-    }
-    else {
-        Directory *tmpDir = new Directory(stringFromImap(path));        
-        
-        if (parent == 0) {
-            tmpDir->setParentDirectory(0);
-            
-            tmpDir->setParentId(-1);
-            tmpDir->setId(nextDirectoryId());
-        }
-        else {
-            tmpDir->setParentDirectory(parent);
-            
-            tmpDir->setParentId(parent->getId());
-            tmpDir->setId(nextDirectoryId());
-        }
-        
-        
-        if (getDirectoryByPath(buildPath(tmpDir), repository->getDirectoriesHierarchically()) != 0) {
-            delete tmpDir;
-            tmpDir = getDirectoryByPath(buildPath(tmpDir), repository->getDirectoriesHierarchically());
-        }
-        else {
-            if (parent != 0) {
-                parent->addSubDirectory(tmpDir);
-            }
-        }
-        
-        
-        if (parent == 0) {
-            flatDirectoryList.append(tmpDir);   
-            directoryList.append(tmpDir);
-        }
-        else {
-            flatDirectoryList.append(tmpDir);
-        }
-    }
-}
-
 
 void Imap::selectDirectory(Directory* dir) {
-    queue.push("SELECT " + buildPath(dir), dir);
+    queue.push("SELECT " + dir->getPath(), dir);
 }
-
 
 void Imap::fetchMail(Directory* dir, unsigned int uid) {    
     if (uid != 0) {
@@ -536,9 +448,7 @@ void Imap::fetchMail(Directory* dir, unsigned int uid) {
 
 void Imap::deleteMail(Mail* mail, Directory* dir) {    
     queue.push("UID STORE " + QString::number(mail->getUid()) + " +FLAGS \\Deleted");
-    
-    dir->removeMail(mail);
-    
+    mailCache->removeMail(mail);
     queue.push("EXPUNGE");
 }
 
@@ -550,55 +460,6 @@ void Imap::unreadMail(Mail* mail, Directory* dir) {
     queue.push("UID STORE " + QString::number(mail->getUid()) + " -FLAGS \\Seen");
 }
 
-
-void Imap::listDirectories() {
-    foreach (Directory* dir, directoryList) {
-        qDebug() << "--" << dir->getName();
-        foreach (Directory* dir2, dir->getSubDirectories()) {
-            qDebug() << "----" << dir2->getName();
-        }
-    }
-}
-
-
-QList<Directory*> Imap::getDirectories() {
-    return directoryList;
-}
-
-int Imap::nextDirectoryId() {
-    int nextId = 0;
-    
-    do {
-        nextId = directoryId++;
-    }
-    while (idExists(nextId));
-    
-    return nextId;
-}
-
-QList<Directory*> Imap::getFlatDirectoryList() {
-    return this->flatDirectoryList;
-}
-
-bool Imap::idExists(int id) {
-    foreach (Directory* dir, repository->getAllDirectories()) {
-        if (dir->getId() == id) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
 void Imap::setTimeout(unsigned int timeout) {
     queue.setInterval(timeout * 1000);
-}
-
-bool Imap::isDirectoryListReady() {
-    return directoryListReady;
-}
-
-void Imap::clearDirectories() {
-    directoryList.clear();
-    flatDirectoryList.clear();
 }

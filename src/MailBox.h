@@ -9,12 +9,11 @@
 #define	MAILBOX_H
 
 #include <QWidget>
-#include <QTreeView>
+#include <QTreeWidget>
 #include <QTableView>
-#include "DirectoryTreeModel.h"
 #include "MailTableModel.h"
-#include "DataRepository.h"
-#include <QModelIndex>
+#include "MailCache.h"
+#include "ContactRepository.h"
 #include "MailView.h"
 #include <QMenu>
 #include <QAction>
@@ -26,15 +25,15 @@ class MailBox : public QWidget {
     Q_OBJECT
     
 public:
-    MailBox(DataRepository* repository, Imap *imap, QWidget* parent = 0);
+    MailBox(MailCache* dataRepo, ContactRepository *contactRepo, Imap *imap, QWidget* parent = 0);
     MailView* getMailView();
     
 private:
-    DataRepository* repository;
+    MailCache *mailCache;
+    ContactRepository *contactRepo;
     Imap *imap;
-    QTreeView* directoryTree;
+    QTreeWidget* directoryTree;
     QTableView* tblMailView;
-    DirectoryTreeModel* dirModel;
     MailTableModel* mailModel;
     Mail* selected() const;
     MailView* mailView;
@@ -48,7 +47,6 @@ private:
     
 public slots:
     void reloadDirectoryTree();
-    void currentDirectoryChanged(const QModelIndex& current, const QModelIndex& previous);
     void reloadMails();
     void replyTriggered();
     void forwardTriggered();
@@ -59,6 +57,8 @@ public slots:
     
 private slots:
     void showMail();
+    void buildDiretoryTree();
+    void directoryAdded(Directory *dir);
     
 signals:
     void directoriesReady();

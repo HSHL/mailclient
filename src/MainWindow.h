@@ -11,8 +11,9 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QMenu>
-#include "DataRepository.h"
-#include "AddressBookWindow.h"
+#include "MailCache.h"
+#include "ContactRepository.h"
+#include "ContactsDialog.h"
 #include "MailBox.h"
 #include "MailView.h"
 #include <QCloseEvent>
@@ -25,9 +26,11 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     
 public:
-    MainWindow(DataRepository *repository);
+    MainWindow();
     
 private:
+    MailCache* mailCache;
+    ContactRepository *contactRepo;
     QSettings *settings;
     Imap *imap;
     Smtp *smtp;
@@ -37,20 +40,17 @@ private:
     QAction* refreshMails;
     QAction* viewSettings;
     QAction* about;
-    DataRepository* repository;
     MailBox* mailBox;
     ContactPicker* contactPicker;
 
     void createMenus();
     void createActions();
     void buildGui();
-    void closeEvent(QCloseEvent *event);
 
 private slots:
     void showAddressBook();
     void showMail();
     void showAbout();
-    void saveData();
     void showSettings();
     void sendSuccess(QString response);
     void sendFailure(QString response);

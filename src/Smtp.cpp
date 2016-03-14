@@ -13,7 +13,7 @@
 
 #include <QByteArray>
 #include "Smtp.h"
-#include "DataRepository.h"
+#include "MailCache.h"
 #include "Base64.h"
 #include "Directory.h"
 #include <QMessageBox>

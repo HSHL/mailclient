@@ -4,13 +4,13 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>src/AddressBookWindow.h</itemPath>
       <itemPath>src/Base64.h</itemPath>
       <itemPath>src/Contact.h</itemPath>
       <itemPath>src/ContactDialog.h</itemPath>
       <itemPath>src/ContactPicker.h</itemPath>
+      <itemPath>src/ContactRepository.h</itemPath>
       <itemPath>src/ContactTableModel.h</itemPath>
-      <itemPath>src/DataRepository.h</itemPath>
+      <itemPath>src/ContactsDialog.h</itemPath>
       <itemPath>src/Directory.h</itemPath>
       <itemPath>src/DirectoryTreeItem.h</itemPath>
       <itemPath>src/DirectoryTreeModel.h</itemPath>
@@ -21,6 +21,7 @@
       <itemPath>src/Logger.h</itemPath>
       <itemPath>src/Mail.h</itemPath>
       <itemPath>src/MailBox.h</itemPath>
+      <itemPath>src/MailCache.h</itemPath>
       <itemPath>src/MailTableModel.h</itemPath>
       <itemPath>src/MailView.h</itemPath>
       <itemPath>src/MainWindow.h</itemPath>
@@ -40,13 +41,13 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>src/AddressBookWindow.cpp</itemPath>
       <itemPath>src/Base64.cpp</itemPath>
       <itemPath>src/Contact.cpp</itemPath>
       <itemPath>src/ContactDialog.cpp</itemPath>
       <itemPath>src/ContactPicker.cpp</itemPath>
+      <itemPath>src/ContactRepository.cpp</itemPath>
       <itemPath>src/ContactTableModel.cpp</itemPath>
-      <itemPath>src/DataRepository.cpp</itemPath>
+      <itemPath>src/ContactsDialog.cpp</itemPath>
       <itemPath>src/Directory.cpp</itemPath>
       <itemPath>src/DirectoryTreeItem.cpp</itemPath>
       <itemPath>src/DirectoryTreeModel.cpp</itemPath>
@@ -57,6 +58,7 @@
       <itemPath>src/Logger.cpp</itemPath>
       <itemPath>src/Mail.cpp</itemPath>
       <itemPath>src/MailBox.cpp</itemPath>
+      <itemPath>src/MailCache.cpp</itemPath>
       <itemPath>src/MailTableModel.cpp</itemPath>
       <itemPath>src/MailView.cpp</itemPath>
       <itemPath>src/MainWindow.cpp</itemPath>
@@ -98,10 +100,6 @@
           <standard>8</standard>
         </ccTool>
       </compileType>
-      <item path="src/AddressBookWindow.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/AddressBookWindow.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Base64.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Base64.h" ex="false" tool="3" flavor2="0">
@@ -118,13 +116,17 @@
       </item>
       <item path="src/ContactPicker.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/ContactRepository.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactRepository.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/ContactTableModel.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ContactTableModel.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/DataRepository.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/ContactsDialog.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/DataRepository.h" ex="false" tool="3" flavor2="0">
+      <item path="src/ContactsDialog.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Directory.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -165,6 +167,10 @@
       <item path="src/MailBox.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MailBox.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailCache.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailCache.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/MailTableModel.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -237,10 +243,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="src/AddressBookWindow.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/AddressBookWindow.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Base64.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Base64.h" ex="false" tool="3" flavor2="0">
@@ -257,13 +259,17 @@
       </item>
       <item path="src/ContactPicker.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/ContactRepository.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ContactRepository.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/ContactTableModel.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ContactTableModel.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/DataRepository.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/ContactsDialog.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/DataRepository.h" ex="false" tool="3" flavor2="0">
+      <item path="src/ContactsDialog.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Directory.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -304,6 +310,10 @@
       <item path="src/MailBox.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MailBox.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MailCache.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MailCache.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/MailTableModel.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -10,22 +10,22 @@
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QDebug>
-#include "XmlWriter.h"
 #include <QDesktopWidget>
 #include "SettingsDialog.h"
 #include <QMessageBox>
 #include "Fibonacci.h"
 
-MainWindow::MainWindow(DataRepository *repository) {
-    this->repository = repository;
+MainWindow::MainWindow() {
+    this->mailCache = new MailCache();
+    this->contactRepo = new ContactRepository("Contacts.xml");
     this->settings = new QSettings("mailClient.ini", QSettings::IniFormat, this);
-    this->imap = new Imap(repository, settings);
+    this->imap = new Imap(mailCache, settings);
     this->smtp = new Smtp(settings);
     
     buildGui();
 
-    connect(repository, SIGNAL(contactsChanged()), this, SLOT(saveData()));
-    connect(repository, SIGNAL(refreshDirectories()), mailBox, SLOT(reloadDirectoryTree()));
+    connect(contactRepo, SIGNAL(contactsChanged()), this, SLOT(saveData()));
+    connect(mailCache, SIGNAL(refreshDirectories()), mailBox, SLOT(reloadDirectoryTree()));
     connect(smtp, SIGNAL(success(QString)), this, SLOT(sendSuccess(QString)));
     connect(smtp, SIGNAL(failure(QString)), this, SLOT(sendFailure(QString)));
     connect(imap, SIGNAL(connectedChanged()), this, SLOT(onConnectedChanged()));
@@ -37,7 +37,7 @@ void MainWindow::buildGui() {
     setWindowIcon(QIcon::fromTheme("mail-unread"));
     resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
 
-    mailBox = new MailBox(repository, imap, this);
+    mailBox = new MailBox(mailCache, contactRepo, imap, this);
 //    contactPicker = new ContactPicker(repository, mailView);
 //    mailView->setContactPicker(contactPicker);
 
@@ -46,8 +46,6 @@ void MainWindow::buildGui() {
 
     createActions();
     createMenus();
-
-    return;
 }
 
 void MainWindow::createActions() {
@@ -76,7 +74,7 @@ void MainWindow::createMenus() {
 }
 
 void MainWindow::showAddressBook() {
-    AddressBookWindow *window = new AddressBookWindow(repository, this);
+    ContactsDialog *window = new ContactsDialog(contactRepo, this);
     window->show();
 }
 
@@ -94,15 +92,6 @@ void MainWindow::showMail() {
 void MainWindow::showSettings() {
     SettingsDialog settingsDialog(settings);
     settingsDialog.exec();
-}
-
-void MainWindow::saveData() {
-    XmlWriter writer(this->repository);
-    writer.write();
-}
-
-void MainWindow::closeEvent(QCloseEvent *event) {
-    emit saveData();
 }
 
 void MainWindow::sendSuccess(QString response) {

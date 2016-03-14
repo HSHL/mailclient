@@ -16,7 +16,7 @@
 #include <QHeaderView>
 #include "MailView.h"
 
-ContactPicker::ContactPicker(DataRepository* repository, MailView* mailView, QWidget* parent) : QDialog(parent) {
+ContactPicker::ContactPicker(ContactRepository* repository, MailView* mailView, QWidget* parent) : QDialog(parent) {
     setWindowIcon(QIcon::fromTheme("x-office-address-book"));
     this->repository = repository;
     this->mailView = mailView;

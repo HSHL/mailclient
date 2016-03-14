@@ -5,14 +5,14 @@
  * Created on October 15, 2015, 12:51 PM
  */
 
-#include "AddressBookWindow.h"
+#include "ContactsDialog.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include "ContactDialog.h"
 #include <QHeaderView>
 
-AddressBookWindow::AddressBookWindow(DataRepository *repository, QWidget *parent) : QDialog(parent) {
+ContactsDialog::ContactsDialog(ContactRepository *repository, QWidget *parent) : QDialog(parent) {
     this->repository = repository;
     this->model = new ContactTableModel(repository->getAllContacts(), this);
     
@@ -21,7 +21,7 @@ AddressBookWindow::AddressBookWindow(DataRepository *repository, QWidget *parent
     tblContacts->setModel(model);
 }
 
-void AddressBookWindow::buildGui() {
+void ContactsDialog::buildGui() {
     QHBoxLayout *hBox = new QHBoxLayout(this);
     
     QVBoxLayout *vBoxLeft = new QVBoxLayout();
@@ -60,7 +60,7 @@ void AddressBookWindow::buildGui() {
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(passSelection()));
 }
 
-Contact* AddressBookWindow::selected() {
+Contact* ContactsDialog::selected() {
     int index = tblContacts->currentIndex().row();
     if (index >= 0 && index < repository->getAllContacts().count()) {
         return repository->getAllContacts().at(index);
@@ -70,15 +70,15 @@ Contact* AddressBookWindow::selected() {
     }
 }
 
-void AddressBookWindow::passSelection() {
+void ContactsDialog::passSelection() {
     emit editContactTriggered(selected());
 }
 
-void AddressBookWindow::reloadData() {
+void ContactsDialog::reloadData() {
     model->setData(repository->getAllContacts());
 }
 
-void AddressBookWindow::editContact(Contact *c) {
+void ContactsDialog::editContact(Contact *c) {
     if (c == NULL) {
         return;
     }
@@ -89,7 +89,7 @@ void AddressBookWindow::editContact(Contact *c) {
     }
 }
 
-void AddressBookWindow::addContact() {
+void ContactsDialog::addContact() {
     Contact *c = new Contact();
     ContactDialog contactDialog("Add Contact", c, this);
     
@@ -101,6 +101,6 @@ void AddressBookWindow::addContact() {
     }
 }
 
-void AddressBookWindow::deleteContact() {
+void ContactsDialog::deleteContact() {
     repository->remove(selected());
 }

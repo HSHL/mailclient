@@ -1,3 +1,51 @@
-13.03.2016 22:16:17: DEBUG: main: Application startet!
-13.03.2016 22:16:17: DEBUG: Smtp.constructor
-13.03.2016 22:16:17: DEBUG: Smtp.initialize
+14.03.2016 11:07:26: DEBUG: main: Application startet!
+14.03.2016 11:07:26: DEBUG: MailCache.constructor
+14.03.2016 11:07:26: DEBUG: ContactRepository.constructor: Contacts.xml
+14.03.2016 11:07:26: DEBUG: ContactRepository.readFromFile
+14.03.2016 11:07:26: DEBUG: ContactRepository.readFromFile: Could not open file!
+14.03.2016 11:07:26: DEBUG: Imap.constructor
+14.03.2016 11:07:26: DEBUG: Imap.initialize
+14.03.2016 11:07:26: DEBUG: Smtp.constructor
+14.03.2016 11:07:26: DEBUG: Smtp.initialize
+14.03.2016 11:07:26: DEBUG: MailBox.constructor
+14.03.2016 11:07:28: DEBUG: Imap.connect
+14.03.2016 11:07:29: DEBUG: Imap.connectionReady
+14.03.2016 11:07:29: DEBUG: Imap.sendCommand: LOGIN alexander.stuckenholz@outlook.de abaw8iru#M
+14.03.2016 11:07:29: DEBUG: Imap.readyRead
+14.03.2016 11:07:29: DEBUG: Imap.readyRead: * OK Outlook.com IMAP4rev1 server version 17.4.0.0 ready (DUB451-IMAP416)
+14.03.2016 11:07:30: DEBUG: Imap.readyRead
+14.03.2016 11:07:30: DEBUG: Imap.readyRead: * CAPABILITY IMAP4rev1 CHILDREN ID NAMESPACE UIDPLUS UNSELECT
+14.03.2016 11:07:30: DEBUG: Imap.readyRead
+14.03.2016 11:07:30: DEBUG: Imap.readyRead: A000 OK alexander.stuckenholz@outlook.de authenticated successfully
+14.03.2016 11:07:30: DEBUG: Imap.fetchDirectories
+14.03.2016 11:07:30: DEBUG: Imap.sendCommand: LIST "" %
+14.03.2016 11:07:31: DEBUG: Imap.readyRead
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren) "/" "Inbox"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Inbox
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren \Trash) "/" "Deleted"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Deleted
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren \Sent) "/" "Sent"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Sent
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren \Drafts) "/" "Drafts"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Drafts
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren \Junk) "/" "Junk"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Junk
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: * LIST (\HasNoChildren) "/" "Archiv"
+14.03.2016 11:07:31: DEBUG: Imap.parseDirectory
+14.03.2016 11:07:31: DEBUG: MailCache.addDirectory: Archiv
+14.03.2016 11:07:31: DEBUG: Imap.readyRead
+14.03.2016 11:07:31: DEBUG: Imap.readyRead: A001 OK LIST completed
+14.03.2016 11:07:40: DEBUG: Imap.sendCommand: NOOP
+14.03.2016 11:07:41: DEBUG: Imap.readyRead
+14.03.2016 11:07:41: DEBUG: Imap.readyRead: A002 OK NOOP completed
+14.03.2016 11:07:50: DEBUG: Imap.sendCommand: NOOP
+14.03.2016 11:07:51: DEBUG: Imap.readyRead
+14.03.2016 11:07:51: DEBUG: Imap.readyRead: A003 OK NOOP completed
+14.03.2016 11:08:00: DEBUG: Imap.sendCommand: NOOP
+14.03.2016 11:08:00: DEBUG: Imap.readyRead
+14.03.2016 11:08:00: DEBUG: Imap.readyRead: A004 OK NOOP completed

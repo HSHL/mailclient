@@ -8,39 +8,36 @@
 #ifndef MAIL_H
 #define	MAIL_H
 
+#include <QObject>
 #include <QDateTime>
 #include "Directory.h"
 
-class Mail {
+class Mail : public QObject {
+    Q_OBJECT
+    
 public:
     Mail();
-        
     void setSenderAddress(QString value);
     QString getSenderAddress() const;
-    
     void setRecipientAddress(QString value);
     QString getRecipientAddress() const;
-    
     void setTimeStamp(QDateTime value);
     QDateTime getTimeStamp() const;
-    
     void setSubject(QString value);
     QString getSubject() const;
-    
     void setText(QString value);
     QString getText() const;
-    
     void setUid(unsigned int uid);
     unsigned int getUid() const;
-    
     void setRead(bool value);
-    
     void setSenderName(QString senderName);
     QString getSenderName() const;
-    
     bool isRead() const;
     void readMail();
     void unreadMail();
+    void setDirectory(Directory *dir);
+    Directory* getDirectory();
+    
 private:
     unsigned int uid;
     QString senderName;
@@ -50,7 +47,7 @@ private:
     QDateTime timeStamp;
     QString text;
     bool read;
+    Directory* dir;
 };
 
 #endif	/* MAIL_H */
-

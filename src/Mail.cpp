@@ -10,6 +10,7 @@
 
 Mail::Mail() {
     this->read = false;
+    this->dir = NULL;
 }
 
 void Mail::setSenderAddress(QString value) {
@@ -82,4 +83,12 @@ void Mail::setSenderName(QString senderName) {
 
 QString Mail::getSenderName() const {
     return this->senderName;
+}
+
+void Mail::setDirectory(Directory* dir) {
+    this->dir = dir;
+}
+
+Directory* Mail::getDirectory() {
+    return this->dir;
 }
