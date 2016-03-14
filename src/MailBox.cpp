@@ -100,10 +100,9 @@ MailBox::MailBox(MailCache* mailCache, ContactRepository *contactRepo, Imap *ima
     mailMenu->addAction(markAsUnseen);
     mailMenu->addAction(deleteMail);
     
-    connect(mailCache, SIGNAL(directoriesChanged()), this, SLOT(buildDirectoryTree()));
     connect(mailCache, SIGNAL(directoryAdded(Directory*)), this, SLOT(directoryAdded(Directory*)));
-    connect(tblMailView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(showMail()));
-    connect(tblMailView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mailContextMenu(QPoint)));
+    connect(directoryTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(directorySelected(QTreeWidgetItem*)));
+    
     connect(reply, SIGNAL(triggered()), this, SLOT(replyTriggered()));
     connect(forward, SIGNAL(triggered()), this, SLOT(forwardTriggered()));
     connect(deleteMail, SIGNAL(triggered()), this, SLOT(deleteMailTriggered()));
@@ -190,9 +189,6 @@ void MailBox::markAsUnseenTriggered() {
 void MailBox::refreshMailsTriggered() {
     if (!imap->isConnected())
         imap->connect();
-    
-//    if (imap->isConnected())
-//        imap->selectDirectory(dirModel->getData(directoryTree->currentIndex()));
 }
 
 void MailBox::reloadDirectoryTree() {
@@ -207,13 +203,14 @@ void MailBox::reloadDirectoryTree() {
 //    emit directoriesReady();
 }
 
-void MailBox::buildDiretoryTree() {
-
-}
-
 void MailBox::directoryAdded(Directory* dir) {
     if (dir->getParentDirectory() == NULL) {
         QTreeWidgetItem *item = new QTreeWidgetItem(directoryTree);
         item->setText(0, dir->getName());
+        item->setText(1, dir->getPath());
     }
+}
+
+void MailBox::directorySelected(QTreeWidgetItem* item) {
+    
 }

@@ -12,12 +12,14 @@
 
 class Logger {
 private:
-    static QString timestampAsString();
     static void logToFile(QString fileName, QString msg);
 
 public:
     static void debug(QString message);
+    static void debug(QString source, QString message);
+    
+    static void error(QString message);
+    static void error(QString source, QString message);
 };
 
 #endif	/* LOGGER_H */
-

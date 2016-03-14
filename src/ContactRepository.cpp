@@ -16,7 +16,7 @@
 #include "Logger.h"
 
 ContactRepository::ContactRepository(QString filename) {
-    Logger::debug("ContactRepository.constructor: " + filename);
+    Logger::debug("ContactRepository.constructor", filename);
     this->filename = filename;
     this->contactId = -1;
     readFromFile();
@@ -32,7 +32,7 @@ const QList<Contact*> ContactRepository::getAllContacts() const {
 }
 
 void ContactRepository::save(Contact* c) {
-    Logger::debug("ContactRepository.save");
+    Logger::debug("ContactRepository.save", "");
 
     if (c == NULL)
         return;
@@ -51,7 +51,7 @@ void ContactRepository::save(Contact* c) {
 }
 
 void ContactRepository::remove(Contact *c) {
-    Logger::debug("ContactRepository.remove");
+    Logger::debug("ContactRepository.remove", "");
     if (c == NULL)
         return;
 
@@ -62,7 +62,7 @@ void ContactRepository::remove(Contact *c) {
 }
 
 bool ContactRepository::writeToFile() {
-    Logger::debug("ContactRepository.writeToFile");
+    Logger::debug("ContactRepository.writeToFile", "");
 
     QFile file(QDir::currentPath() + "/" + this->filename);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -78,7 +78,7 @@ bool ContactRepository::writeToFile() {
 }
 
 QString ContactRepository::getDocument() {
-    Logger::debug("ContactRepository.getDocument");
+    Logger::debug("ContactRepository.getDocument", "");
 
     QDomDocument document;
     QDomElement root = document.createElement("MailClient");
@@ -102,12 +102,12 @@ QString ContactRepository::getDocument() {
 }
 
 bool ContactRepository::readFromFile() {
-    Logger::debug("ContactRepository.readFromFile");
+    Logger::debug("ContactRepository.readFromFile", "");
     contactList.clear();
     
     QFile file(QDir::currentPath() + "/" + this->filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        Logger::debug("ContactRepository.readFromFile: Could not open file!");
+        Logger::error("ContactRepository.readFromFile", "Could not open file!");
         return false;
     }
 

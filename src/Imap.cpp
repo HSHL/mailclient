@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Imap.cpp
  * Author: ckarner
@@ -15,7 +9,6 @@
 #include <QString>
 #include <QChar>
 #include <QTextStream>
-#include <QDebug>
 #include <QSslSocket>
 #include <QRegularExpression>
 #include "Mail.h"
@@ -125,12 +118,11 @@ void Imap::setCurrentCommand(QString cmd) {
 }
 
 void Imap::sendCommand(QString cmd, Directory* dir) {
-    Logger::debug("Imap.sendCommand: " + cmd);
+    Logger::debug("Imap.sendCommand", cmd);
     
     setCurrentCommand(cmd);
     currentDir = dir;
     QString command = nextTag() + cmd + "\r\n";
-    qDebug() << "> " << command;
     
     if (currentCommand == FETCH) {
         mailCache->removeMailsInDirectory(dir);
@@ -148,7 +140,7 @@ void Imap::readyRead() {
     
     while (socket->canReadLine()) {
         response = socket->readLine().simplified();
-        Logger::debug("Imap.readyRead: " + response);
+        Logger::debug("Imap.readyRead", response);
         
         if (response.startsWith("* BYE")) {
             disconnected();            
@@ -261,11 +253,11 @@ void Imap::readyRead() {
             }
             else if (result == BAD) {
                 currentCommand = DEFAULT;
-                qDebug() << "ERROR: SYNTAX ERROR";
+                Logger::debug("Imap.readyRead", "syntax error!");
             }
             else if (result == NO) {
                 currentCommand = DEFAULT;
-                qDebug() << "ERROR: ACCESS PERMITTED";
+                Logger::error("Imap.readyRead", "access permitted!");
             }
             
             break;

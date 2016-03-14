@@ -57,8 +57,8 @@ public slots:
     
 private slots:
     void showMail();
-    void buildDiretoryTree();
     void directoryAdded(Directory *dir);
+    void directorySelected(QTreeWidgetItem *item);
     
 signals:
     void directoriesReady();

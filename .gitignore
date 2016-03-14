@@ -20,3 +20,10 @@
 /moc_MailTableModel.cpp
 /data.dat
 /dist/
+/mailClient.ini
+/mailClient.log
+/moc_ContactRepository.cpp
+/moc_Mail.cpp
+/moc_MailCache.cpp
+/moc_ContactsDialog.cpp
+/build/

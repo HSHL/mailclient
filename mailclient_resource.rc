@@ -1,7 +1,7 @@
 # if defined(UNDER_CE)
 #  include <winbase.h>
 # else
-#  include <windows.h>
+#  include <winver.h>
 # endif
 
 VS_VERSION_INFO VERSIONINFO

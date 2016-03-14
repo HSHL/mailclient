@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Imap.h
  * Author: ckarner
@@ -29,7 +23,6 @@ class Imap : public QObject {
 public:
     Imap(MailCache *mailCache, QSettings *settings);
     ~Imap();
-    QList<Directory*> getDirectories();
     void selectDirectory(Directory *dir);
     void fetchMail(Directory* dir, unsigned int uid = 0);
     bool isConnected();
@@ -39,9 +32,6 @@ public:
     void readMail(Mail* mail, Directory* dir);
     void unreadMail(Mail* mail, Directory* dir);
     void deleteMail(Mail* mail, Directory* dir);
-    QList<Directory*> getFlatDirectoryList();
-    bool isDirectoryListReady();
-    void clearDirectories();
     void connect();
     
 private:
